@@ -1,16 +1,17 @@
 from flask import request, jsonify
 from . import app
-import cv2
-from getData import getData
+from . import getData
+import os
 
 
 @app.route('/api/v1/transaction', methods=['GET'])
 def getTransaction():
-    endDate = request.form.get('endDate')
-    startDate = request.form.get('startDate')
-    pageSize = request.form.get('pageSize')
-    pageNo = request.form.get('pageNo')
+    endDate = request.args.get('endDate')
+    startDate = request.args.get('startDate')
+    pageSize = request.args.get('pageSize')
+    pageNo = request.args.get('pageNo')
+    personPin = request.args.get('personPin')
 
-    data = getData(endDate, startDate, pageSize, pageNo)
+    data = getData.getDataApi(endDate, startDate, pageSize, pageNo, personPin)
 
-    return data
+    return jsonify(data)
