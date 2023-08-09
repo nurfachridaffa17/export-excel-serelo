@@ -1,12 +1,17 @@
 import requests
 import json
 from . import app
+from .models import db, tbl_zksession
 
 def getDataApi(enddate, startdate, pageSize, pageNo, personPin):
+    query_table = db.session.query(tbl_zksession).filter_by(id=1).first()
+    cookie_string = query_table.cookie
+    cookie = cookie_string.split(': ')
+
     url = app.config['URL_ENDPOINT']
 
     headers = {
-        'Cookie': app.config['HEADERS_ENDPOINT']
+        'Cookie' : cookie[1]
         }
     
     params = {

@@ -5,13 +5,6 @@ import os
 import pandas as pd
 import openpyxl
 
-endDate = None
-startDate = None
-pageSize = None
-pageNo = None
-personPin = None
-
-
 @app.route('/api/v1/transaction', methods=['GET'])
 def getTransaction():
     endDate = request.form.get('endDate')
@@ -30,11 +23,11 @@ def getTransaction():
 
 @app.route('/api/v1/transaction/download', methods=['GET'])
 def downloadTransaction():
-    # endDate = request.form.get('endDate')
-    # startDate = request.form.get('startDate')
-    # pageSize = request.form.get('pageSize')
-    # pageNo = request.form.get('pageNo')
-    # personPin = request.form.get('personPin')
+    endDate = request.form.get('endDate')
+    startDate = request.form.get('startDate')
+    pageSize = request.form.get('pageSize')
+    pageNo = request.form.get('pageNo')
+    personPin = request.form.get('personPin')
 
     data = getData.getDataApi(endDate, startDate, pageSize, pageNo, personPin)
 
@@ -93,11 +86,6 @@ def downloadTransaction():
         # Save the modified workbook
         book.save(custom_excel_file)
 
-        return send_file (
-            custom_excel_file,
-            mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            attachment_filename=custom_filename,
-            as_attachment=True
-        )
+        return jsonify({'message': 'success save file'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
