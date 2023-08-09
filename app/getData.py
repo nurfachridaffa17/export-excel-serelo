@@ -4,10 +4,12 @@ from . import app
 
 def getDataApi(enddate, startdate, pageSize, pageNo, personPin):
     url = app.config['URL_ENDPOINT']
+
     headers = {
         'Cookie': app.config['HEADERS_ENDPOINT']
         }
-    payload = {
+    
+    params = {
         'endDate': enddate, 
         'startDate': startdate,
         'pageNo' : pageNo,
@@ -15,7 +17,7 @@ def getDataApi(enddate, startdate, pageSize, pageNo, personPin):
         'personPin' : personPin
         }
     
-    response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.request("GET", url, headers=headers, params=params)
     
     if response.status_code == 200:  # Check if the request was successful
         return response.json()
